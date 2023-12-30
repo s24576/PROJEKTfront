@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ItemsContext } from "../context/ItemsContext";
 
+
 function ItemCards({ item }) {
   const { setItem } = useContext(ItemsContext);
   const { setCart } = useContext(ItemsContext);

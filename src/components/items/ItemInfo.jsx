@@ -1,5 +1,6 @@
 import React, { useContext, useReducer } from 'react';
 import { ItemsContext } from '../context/ItemsContext';
+import Opinions from "./Opinions";
 
 const quantityReducer = (state, action) => {
   switch (action.type) {
@@ -55,7 +56,9 @@ function ItemInfo() {
         <p>Paczkomat: {item.shipping1 ? 'Dostępny' : 'Niedostępny'}</p>
         <p>Kurier: {item.shipping2 ? 'Dostępny' : 'Niedostępny'}</p>
       </div>
-      <div></div>
+      <div>
+        <Opinions />
+      </div>
     </div>
   );
 }
