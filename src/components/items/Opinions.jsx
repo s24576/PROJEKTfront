@@ -1,16 +1,14 @@
 import React, { useContext, useState } from "react";
+import AllOpinions from "./AllOpinions";
+import AddOpinion from "./AddOpinion";
+import Average from "./Average";
 
-
-
-function Opinions() {
+function Opinions(){
   return (
     <div>
-      <div>
-
-      </div>
-      <div>
-        <h3>Opinie użytkowników</h3>
-      </div>
+      <AddOpinion/>
+      <AllOpinions />
+      <Average />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import ItemCard from "./items/ItemCard";
 import { ItemsContext } from "./context/ItemsContext";
 
 function Main() {
-  const [items, setItems] = useContext(ItemsContext);
+  const {items, setItems} = useContext(ItemsContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 

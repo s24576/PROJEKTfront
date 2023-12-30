@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ItemsContext } from "../context/ItemsContext";
 import axios from "axios";
+import Opinion from "./Opinion";
 
 function AllOpinions(){
     const {item} = useContext(ItemsContext);
@@ -22,6 +23,8 @@ function AllOpinions(){
                 setLoading(false);
               }
         }
+
+        fetchData();
     }, [setOpinions])
     
 
@@ -40,8 +43,10 @@ function AllOpinions(){
     return (
         <div>
             {opinions.map((opinion)=>(
-                <Opinion key={pinion._id} opinion={opinion}/>
+                <Opinion key={opinion._id} opinion={opinion}/>
             ))}
         </div>
     )
 }
+
+export default AllOpinions;
