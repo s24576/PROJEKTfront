@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import StarRating from 'react-rating-stars-component';
 import { ItemsContext } from "../context/ItemsContext";
 import axios from "axios";
 
@@ -29,9 +30,20 @@ function Average() {
     fetchData();
   }, [item._id, setAverage]);
 
+  if(loading){
+    return(<div>Ładowanie...</div>)
+  }
+
   return (
     <div>
       <h4>Średnia: {average}</h4>
+      <StarRating
+      size={30}
+      count={5}
+      value={Math.round(average * 2)/2}
+      edit={false}
+      isHalf={true}
+    />
     </div>
   );
 }

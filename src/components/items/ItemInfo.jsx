@@ -13,7 +13,7 @@ const quantityReducer = (state, action) => {
 
 function ItemInfo() {
   const { item } = useContext(ItemsContext);
-  const { setCart } = useContext(ItemsContext);
+  const { cart, setCart } = useContext(ItemsContext);
   const [quantity, dispatch] = useReducer(quantityReducer, 1);
 
   if (!item) {
@@ -21,8 +21,17 @@ function ItemInfo() {
   }
 
   const handleAdd = () => {
-    const { id, name } = item;
-    setCart((prevCart) => [...prevCart, { id, name, quantity }]);
+    const { id, name, price } = item;
+    const tempItem = cart.find((cartItem)=>cartItem.id === id);
+    if(tempItem){
+      const updatedCart = cart.map((cartItem) =>
+            cartItem.id === id ? { ...cartItem, quantity: cartItem.quantity + quantity } : cartItem
+        );
+        setCart(updatedCart);
+    }
+    else{
+      setCart((prevCart) => [...prevCart, { id, name, price, quantity: quantity }]);
+    } 
   };
 
   return (
