@@ -8,7 +8,8 @@ import Main from './components/Main';
 import Navbar from './components/Navbar';
 import Admin from './components/admin/Admin';
 import ItemInfo from './components/items/ItemInfo';
-import Cart from './components/items/Cart';
+import Cart from './components/cart/Cart';
+import Shipping from './components/cart/Shipping';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/" element={<Main />} />
               <Route path="/info" element={<ItemInfo />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/shipping" element={<Shipping />} />
 
               <Route path="/admin" element={<Admin />} />
             </Routes>

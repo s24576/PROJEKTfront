@@ -12,7 +12,7 @@ function AllOpinions(){
     useEffect(()=>{
         const fetchData = async () =>{
             try{
-                const response = await axios.get("http://localhost:3001/api/get/opinions", item._id);
+                const response = await axios.get("http://localhost:3001/api/get/opinions", {params: { itemId: item._id }},);
                 setOpinions(response.data.opinions);
                 setLoading(false);
             }

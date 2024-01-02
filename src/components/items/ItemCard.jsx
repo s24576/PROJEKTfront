@@ -15,8 +15,8 @@ function ItemCards({ item }) {
   };
 
   const handleAdd = () => {
-    const { name } = item;
-    setCart((prevCart) => [...prevCart, { name, quantity: 1 }]);
+    const { id, name } = item;
+    setCart((prevCart) => [...prevCart, { id, name, quantity: 1}]);
   };
 
   return (

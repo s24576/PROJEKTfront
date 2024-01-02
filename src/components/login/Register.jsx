@@ -19,7 +19,7 @@ function Register() {
     const handleRegister = async (values, { setSubmitting }) => {
         try {
             const response = await axios.post('http://localhost:3001/api/register', values);
-            console.log('Registration successful:', response.data);
+            
             if (response.data.message === 'Registration successful') {
                 navigate('/login');
             }

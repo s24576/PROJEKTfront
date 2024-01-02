@@ -21,10 +21,8 @@ function Stars({ onRatingChange }) {
           />
           <FaStar
             className="star"
-            size={50}
+            size={30}
             color={currentRating <= (hover || rating) ? "yellow" : "grey"}
-            onMouseEnter={() => setHover(currentRating)}
-            onMouseLeave={() => setHover(null)}
           />
         </label>
       );
@@ -34,7 +32,6 @@ function Stars({ onRatingChange }) {
   return (
     <div>
       {stars}
-      <p>Twoja ocena to: {rating}</p>
     </div>
   );
 }

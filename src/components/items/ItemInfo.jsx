@@ -1,6 +1,6 @@
 import React, { useContext, useReducer } from 'react';
 import { ItemsContext } from '../context/ItemsContext';
-import Opinions from "./Opinions";
+import Opinions from "../opinions/Opinions";
 
 const quantityReducer = (state, action) => {
   switch (action.type) {
@@ -21,8 +21,8 @@ function ItemInfo() {
   }
 
   const handleAdd = () => {
-    const { name } = item;
-    setCart((prevCart) => [...prevCart, { name, quantity }]);
+    const { id, name } = item;
+    setCart((prevCart) => [...prevCart, { id, name, quantity }]);
   };
 
   return (
