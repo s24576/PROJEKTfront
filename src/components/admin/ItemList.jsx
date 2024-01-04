@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { UserContext } from '../context/UserContext';
+import { ItemsContext } from '../context/ItemsContext';
+
 
 function ItemList() {
-  const { items, setItems } = useContext(UserContext);
+  const { items, setItems } = useContext(ItemsContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
