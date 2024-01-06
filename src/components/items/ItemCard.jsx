@@ -4,14 +4,12 @@ import { ItemsContext } from "../context/ItemsContext";
 
 
 function ItemCards({ item }) {
-  const { setItem } = useContext(ItemsContext);
   const { cart, setCart } = useContext(ItemsContext);
   const navigate = useNavigate();
   const shortDesc = item.description.split(".")[0];
 
   const handleRedirect = () => {
-    setItem(item);
-    navigate("/info");
+    navigate("/info/${item._id}");
   };
 
   const handleAdd = () => {

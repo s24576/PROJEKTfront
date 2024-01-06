@@ -10,6 +10,7 @@ import Admin from './components/admin/Admin';
 import ItemInfo from './components/items/ItemInfo';
 import Cart from './components/cart/Cart';
 import Shipping from './components/cart/Shipping';
+import Order from './components/cart/Order';
 
 function App() {
   return (
@@ -23,14 +24,15 @@ function App() {
               <Route path="/register" element={<Register />} />
 
               <Route path="/" element={<Main />} />
-              <Route path="/info" element={<ItemInfo />} />
+              <Route path="/info/:productId" element={<ItemInfo />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/shipping" element={<Shipping />} />
+              <Route path="/order/:orderId" element={<Order />} />
 
               <Route path="/admin" element={<Admin />} />
             </Routes>
           </div>
-          </ItemsProvider>
+        </ItemsProvider>
       </UserProvider>
     </BrowserRouter>
   );

@@ -1,42 +1,84 @@
-import React, {} from "react";
+import React, { useState, useContext} from "react";
+import Modal from 'react-modal';
+import axios from "axios";
+import { ItemsContext } from "../context/ItemsContext";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Pole jest wymagane'),
+    names: Yup.string().required('Pole jest wymagane'),
     email: Yup.string().required('Pole jest wymagane'),
     number: Yup.string().required('Pole jest wymagane'),
     code: Yup.string().required('Pole jest wymagane'),
 });
 
-function FormS1(){
-    const handleAdd = async (values, {setSubmitting})=>{}
-    return(
+function FormS1() {
+    const {cart, setCart}=useContext(ItemsContext);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [formData, setFormData] = useState(null);
+
+    const handleAdd = async (values) => {
+        setFormData(values);
+        setIsModalOpen(true);
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    }
+
+    const handleConfirm = async () => {
+        try {
+            const response = await axios.post('http://localhost:3001/api/add/order',
+            {
+                type: "shipping1",
+                cart: cart,
+                shipping: {
+                    names: formData.names,
+                    email: formData.email,
+                    number: formData.number,
+                    code: formData.code,
+                }
+            });
+            setCart(null);
+        } catch (error) {
+            console.error("Error:", error);
+        } finally {
+            closeModal();
+        }
+    }
+
+    const handleReject = () => {
+        closeModal();
+    }
+
+    return (
         <div>
             <Formik
-                onSubmit={handleAdd}
+                initialValues={{ names: '', email: '', number: '', code: '' }}
+                validationSchema={validationSchema}
+                onSubmit={(values) => handleAdd(values)}
             >
                 {({ isSubmitting }) => (
                     <Form>
                         <div>
-                            <label htmlFor="name">Imię i nazwisko:</label>
-                            <Field type="text" id="name" name="name" />
-                            <ErrorMessage name="name" component="div" />
+                            <label htmlFor="names">Imię i nazwisko:</label>
+                            <Field type="text" id="names" name="names" />
+                            <ErrorMessage name="names" component="div" />
                         </div>
                         <div>
                             <label htmlFor="email">Adres email:</label>
-                            <Field type="text" id="email" email="email" />
-                            <ErrorMessage email="email" component="div" />
+                            <Field type="text" id="email" name="email" />
+                            <ErrorMessage name="email" component="div" />
                         </div>
                         <div>
                             <label htmlFor="number">Numer telefonu:</label>
-                            <Field type="text" id="number" number="number" />
-                            <ErrorMessage number="number" component="div" />
+                            <Field type="text" id="number" name="number" />
+                            <ErrorMessage name="number" component="div" />
                         </div>
                         <div>
                             <label htmlFor="code">Numer paczkomatu:</label>
-                            <Field type="text" id="code" code="code" />
-                            <ErrorMessage code="code" component="div" />
+                            <Field type="text" id="code" name="code" />
+                            <ErrorMessage name="code" component="div" />
                         </div>
                         <div>
                             <button type="submit" disabled={isSubmitting}>
@@ -46,6 +88,26 @@ function FormS1(){
                     </Form>
                 )}
             </Formik>
+
+            <Modal
+                isOpen={isModalOpen}
+                onRequestClose={closeModal}
+                contentLabel="Confirmation Modal"
+            >
+                <p>Potwierdź dane do wysyłki</p>
+                {formData && (
+                    <div>
+                        <p>Imię i nazwisko: {formData.names}</p>
+                        <p>Adres email: {formData.email}</p>
+                        <p>Numer telefonu: {formData.number}</p>
+                        <p>Numer paczkomatu: {formData.code}</p>
+                    </div>
+                )}
+                <div>
+                    <button onClick={handleConfirm}>Potwierdź</button>
+                    <button onClick={handleReject}>Odrzuć</button>
+                </div>
+            </Modal>
         </div>
     )
 }

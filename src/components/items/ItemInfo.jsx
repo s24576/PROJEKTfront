@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { ItemsContext } from '../context/ItemsContext';
 import Opinions from "../opinions/Opinions";
 
@@ -12,9 +12,12 @@ const quantityReducer = (state, action) => {
 };
 
 function ItemInfo() {
-  const { item } = useContext(ItemsContext);
   const { cart, setCart } = useContext(ItemsContext);
   const [quantity, dispatch] = useReducer(quantityReducer, 1);
+
+  useEffect(()=>{
+    
+  })
 
   if (!item) {
     return <div>Nie wybrano przedmiotu</div>;
