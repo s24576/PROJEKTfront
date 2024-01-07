@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import {UserContext} from './context/UserContext';
 
 function Navbar() {
     const { user, setUser } = useContext(UserContext);
-
+    
     const handleLogout = () => {
+        localStorage.removeItem('loginToken');
         setUser(null);
     };
 

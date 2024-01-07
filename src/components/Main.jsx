@@ -1,29 +1,11 @@
-import React, { useContext, useState, useEffect } from "react";
-import axios from "axios";
+import React, { useContext } from "react";
 import ItemCard from "./items/ItemCard";
 import { ItemsContext } from "./context/ItemsContext";
 
 function Main() {
-  const {items, setItems} = useContext(ItemsContext);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/api/get/items");
-        setItems(response.data.items);
-        setLoading(false);
-      } catch (error) {
-        if (error.response) {
-          setError(error.response.data.message);
-        }
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [setItems]);
+  const {items} = useContext(ItemsContext);
+  const {loading} = useContext(ItemsContext);
+  const {error} = useContext(ItemsContext);
 
   if (loading) {
     return <div>Loading...</div>;

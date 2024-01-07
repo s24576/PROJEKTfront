@@ -9,7 +9,8 @@ function ItemCards({ item }) {
   const shortDesc = item.description.split(".")[0];
 
   const handleRedirect = () => {
-    navigate("/info/${item._id}");
+    const address = "/info/"+item._id;
+    navigate(address);
   };
 
   const handleAdd = () => {

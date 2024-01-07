@@ -1,49 +1,49 @@
 import React, { useContext, useState, useEffect } from "react";
 import StarRating from 'react-rating-stars-component';
-import { ItemsContext } from "../context/ItemsContext";
-import axios from "axios";
+import { OpinionsContext } from "../context/OpinionsContext";
 
-function Average() {
-  const { item } = useContext(ItemsContext);
-  const [average, setAverage] = useState(0);
+function Average({ id }) {
+  const { average, setAverage, fetchAverage } = useContext(OpinionsContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/get/average", {
-          params: { itemId: item._id },
-        });
-
-        console.log(response.data.average);
-        setAverage(response.data.average);
-        setLoading(false);
+        await fetchAverage(id);
       } catch (error) {
-        if (error.response) {
-          setError(error.response.data.message);
-        }
+        setError(error.message || 'Something went wrong');
+      } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [item._id, setAverage]);
+  }, [id, setAverage]);
 
-  if(loading){
-    return(<div>Ładowanie...</div>)
+  if (loading) {
+    return <div>Ładowanie...</div>;
+  }
+
+  if (error) {
+    return (
+      <div>
+        <p>{error}</p>
+      </div>
+    );
   }
 
   return (
     <div>
       <h4>Średnia: {average}</h4>
       <StarRating
-      size={30}
-      count={5}
-      value={Math.round(average * 2)/2}
-      edit={false}
-      isHalf={true}
-    />
+        key={average}
+        size={30}
+        count={5}
+        value={Math.round(average * 2) / 2}
+        edit={false}
+        isHalf={true}
+      />
     </div>
   );
 }

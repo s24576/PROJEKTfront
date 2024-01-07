@@ -18,7 +18,7 @@ function Register() {
     const navigate = useNavigate();
     const handleRegister = async (values, { setSubmitting }) => {
         try {
-            const response = await axios.post('http://localhost:3001/api/register', values);
+            const response = await axios.post('http://localhost:3001/api/user/register', values);
             
             if (response.data.message === 'Registration successful') {
                 navigate('/login');

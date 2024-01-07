@@ -1,14 +1,20 @@
-import React, { useContext, useState } from "react";
+import React from "react";
+import AddComment from "./AddComment";
+import AddRating from "./AddRating";
 import AllOpinions from "./AllOpinions";
-import AddOpinion from "./AddOpinion";
 import Average from "./Average";
+import { OpinionsProvider } from "../context/OpinionsContext";
 
-function Opinions(){
+function Opinions({id}){
   return (
     <div>
-      <AddOpinion/>
-      <AllOpinions />
-      <Average />
+      <OpinionsProvider>
+        <AllOpinions id={id}/>
+        <AddComment id={id}/>
+        <Average id={id}/>
+        <AddRating id={id}/>
+      </OpinionsProvider>
+      
     </div>
   );
 }

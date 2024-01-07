@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -13,19 +13,22 @@ const validation = Yup.object().shape({
 });
 
 function Login() {
+  const {setUser}=useContext(UserContext);
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/login",
+        "http://localhost:3001/api/user/login",
         values
       );
-      console.log("Login successful:", response.data);
       if (response.data.message === "Login successful") {
-        setUser(response.data.user);
-        navigate("/main");
+        const { token, user } = response.data;
+        
+        localStorage.setItem("loginToken", token);
+        setUser(user);
+        
+        navigate("/");
       }
     } catch (error) {
       console.log("Error:", error);

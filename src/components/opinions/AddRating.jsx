@@ -1,15 +1,14 @@
 import React, { useContext, useState } from "react";
-import { ItemsContext } from "../context/ItemsContext";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import Stars from "./Stars";
+import { OpinionsContext } from "../context/OpinionsContext";
 
-function AddOpinion(){
+function AddRating({id}){
     const {user} = useContext(UserContext);
-    const { item } = useContext(ItemsContext);
-    const [comment, setComment] = useState("");
     const [rating, setRating] = useState(1);
-    
+    const {fetchAverage}=useContext(OpinionsContext);
+
     const handleAdd = async () => {
         try {
           let author = "Gość";
@@ -19,20 +18,17 @@ function AddOpinion(){
           }
     
           const values = {
-            itemId: item._id,
+            itemId: id,
             author: author,
-            comment: comment,
             rating: rating,
           };
     
           const response = await axios.post(
-            "http://localhost:3001/api/add/opinion",
+            "http://localhost:3001/api/opinion/addRating",
             values
           );
-    
-          console.log("Dodano opinię:", response.data);
-    
-          setComment("");
+          
+          fetchAverage(id);
           setRating(1);
         } catch (error) {
           console.log("Error:", error);
@@ -41,19 +37,11 @@ function AddOpinion(){
 
     return(
         <div>
-            <h3>Dodaj opinie</h3>
-            <label htmlFor="comment">Komentarz:</label>
-            <input
-              type="textarea"
-              name="comment"
-              id="comment"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
+            <h3>Dodaj ocenę</h3>
             <Stars onRatingChange={(newRating) => setRating(newRating)} />
-            <button onClick={handleAdd}>Dodaj opinie</button>
+            <button onClick={handleAdd}>Dodaj</button>
         </div>
-    );
+    )
 }
 
-export default AddOpinion;
+export default AddRating;

@@ -4,18 +4,20 @@ import { ItemsContext } from "../context/ItemsContext";
 import ShortItem from "./ShortItem";
 
 function Cart() {
-  const { cart } = useContext(ItemsContext);
+  const { cart, setCart } = useContext(ItemsContext);
   const [subtotal, setSubtotal] = useState(0);
 
   const countSubtotal = () => {
     let total = 0;
     cart.forEach((item) => {
+      if(item.quantity !== null && item.quantity > 0)
       total += item.price * item.quantity;
     });
     setSubtotal(total);
   };
 
   useEffect(() => {
+
     countSubtotal();
   }, [cart]);
 
