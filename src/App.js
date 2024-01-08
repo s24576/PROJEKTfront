@@ -11,18 +11,20 @@ import ItemInfo from './components/items/ItemInfo';
 import Cart from './components/cart/Cart';
 import Shipping from './components/cart/Shipping';
 import Order from './components/cart/Order';
+import { SortProvider } from './components/context/SortContext';
 
 function App() {
   return (
     <BrowserRouter>
       <UserProvider>
         <ItemsProvider>
+        <SortProvider>
           <div>
             <Navbar />
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-
+              
               <Route path="/" element={<Main />} />
               <Route path="/info/:itemId" element={<ItemInfo />} />
               <Route path="/cart" element={<Cart />} />
@@ -32,6 +34,7 @@ function App() {
               <Route path="/admin" element={<Admin />} />
             </Routes>
           </div>
+          </SortProvider>
         </ItemsProvider>
       </UserProvider>
     </BrowserRouter>

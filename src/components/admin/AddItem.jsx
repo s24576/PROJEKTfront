@@ -6,6 +6,7 @@ import { ItemsContext } from '../context/ItemsContext';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Pole jest wymagane'),
+  category: Yup.string().required('Pole jest wymagane'),
   photo: Yup.string().url('Podaj poprawny link URL').required('Pole jest wymagane'),
   price: Yup.number()
     .moreThan(0, 'Cena musi być większa niż 0')
@@ -50,7 +51,7 @@ function AddItem() {
   return (
     <div>
       <Formik
-        initialValues={{ name: '', photo: '', price: '', description: '', quantity: '', shipping1: false, shipping2: false }}
+        initialValues={{ name: '', category:'', photo: '', price: '', description: '', quantity: '', shipping1: false, shipping2: false }}
         validationSchema={validationSchema}
         onSubmit={handleAdd}
       >
@@ -61,6 +62,11 @@ function AddItem() {
               <label htmlFor="name">Nazwa:</label>
               <Field type="text" id="name" name="name" />
               <ErrorMessage name="name" component="div" />
+            </div>
+            <div>
+              <label htmlFor="category">Kategoria:</label>
+              <Field type="text" id="category" name="category" />
+              <ErrorMessage name="category" component="div" />
             </div>
             <div>
               <label htmlFor="photo">Link do zdjęcia:</label>
