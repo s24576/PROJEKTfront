@@ -53,16 +53,22 @@ function ItemInfo() {
 
 
   const handleAdd = () => {
-    const { id, name, price } = item;
-    const tempItem = cart.find((cartItem)=>cartItem.id === id);
+    const { _id, name, price } = item;
+
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity>item.quantity) {
+      console.error("Invalid quantity. Please enter a valid positive number.");
+      return;
+    }
+    
+    const tempItem = cart.find((cartItem)=>cartItem.itemId === _id);
     if(tempItem){
       const updatedCart = cart.map((cartItem) =>
-            cartItem.id === id ? { ...cartItem, quantity: cartItem.quantity + quantity } : cartItem
+            cartItem.itemId === _id ? { ...cartItem, quantity: cartItem.quantity + quantity } : cartItem
         );
         setCart(updatedCart);
     }
     else{
-      setCart((prevCart) => [...prevCart, { id, name, price, quantity: quantity }]);
+      setCart((prevCart) => [...prevCart, { itemId: _id, name, price, quantity: quantity }]);
     } 
   };
 
@@ -74,7 +80,7 @@ function ItemInfo() {
             <img
               src={item.photo}
               alt={item.name}
-              style={{ maxWidth: '100px', maxHeight: '100px' }}
+              style={{ height: 'auto', width: 'auto', maxWidth: '100%', maxHeight: '100%' }}
             />
             <h4>{item.name}</h4>
             <p>Cena: {item.price}zł</p>

@@ -48,10 +48,10 @@ function Navbar() {
                 <Link to="/admin">Panel admina</Link>
               </li>
             )}
+            <li>Zalogowany: {user.email}</li>
             <li>
               <button onClick={handleLogout}>Logout</button>
             </li>
-            <li>Zalogowany: {user.email}</li>
           </>
         )}
       </ul>

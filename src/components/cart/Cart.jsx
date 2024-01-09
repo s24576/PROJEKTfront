@@ -17,7 +17,6 @@ function Cart() {
   };
 
   useEffect(() => {
-
     countSubtotal();
   }, [cart]);
 

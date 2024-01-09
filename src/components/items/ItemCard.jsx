@@ -13,15 +13,15 @@ function ItemCards({ item }) {
   };
 
   const handleAdd = () => {
-    const { id, name, price } = item;
-    const tempItem = cart.find((cartItem) => cartItem.id === id);
+    const { _id, name, price } = item;
+    const tempItem = cart.find((cartItem) => cartItem.itemId === _id);
     if (tempItem) {
       const updatedCart = cart.map((cartItem) =>
-        cartItem.id === id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+        cartItem.itemId === _id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
       );
       setCart(updatedCart);
     } else {
-      setCart((prevCart) => [...prevCart, { id, name, price, quantity: 1 }]);
+      setCart((prevCart) => [...prevCart, { itemId: _id, name, price, quantity: 1 }]);
     }
   };
 

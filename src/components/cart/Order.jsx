@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 function Order(){
-    const {orderId} = useParams;
+    const {orderId} = useParams();
     const [order, setOrder]= useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -11,7 +11,7 @@ function Order(){
     useEffect(()=>{
         const fetchData = async ()=>{
             try{
-                const response = await axios.get("http://localhost:3001/api/get/order",
+                const response = await axios.get("http://localhost:3001/api/order/byId",
                 {params:{orderId: orderId}});
                 setOrder(response.data.order);
                 setLoading(false);
@@ -23,9 +23,10 @@ function Order(){
                 setLoading(false);
               }
         }
-
+        
         fetchData();
-    })
+        
+    }, [orderId]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -41,7 +42,7 @@ function Order(){
     return (
         <div>
             <h2>Zamówienie</h2>
-            <h4>{order._Id}</h4>
+            <h4>{order._id}</h4>
         </div>
     );
 }
