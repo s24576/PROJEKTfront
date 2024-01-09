@@ -1,38 +1,61 @@
-import React, { useContext, useEffect } from 'react';
-import {Link} from 'react-router-dom';
-import {UserContext} from './context/UserContext';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { UserContext } from './context/UserContext';
+import '../styles/navbar.less'
 
 function Navbar() {
-    const { user, setUser } = useContext(UserContext);
-    
-    const handleLogout = () => {
-        localStorage.removeItem('loginToken');
-        setUser(null);
-    };
+  const { user, setUser } = useContext(UserContext);
+  const [theme, setTheme] = useState('theme-light');
 
-    return (
-        <nav>
-            <ul>
-                <li><Link to="/">Strona główna</Link></li>
-                <li><Link to="/cart">Koszyk</Link></li>
-                {!user && (
-                <>
-                    <li><Link to="/login">Zaloguj</Link></li>
-                    <li><Link to="/register">Zarejstruj</Link></li>
-                    
-                </>
-                )}
-                {user && (
-                <>
-                    {user.admin && (
-                    <li><Link to="/admin">Panel admina</Link></li>
-                    )}
-                    <li><button onClick={handleLogout}>Logout</button></li>
-                    <li>User in Navbar: {user.email}</li>
-                </>
-                )}
-            </ul>
-        </nav>
+  const handleLogout = () => {
+    localStorage.removeItem('loginToken');
+    setUser(null);
+  };
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  return (
+    <nav>
+      <ul>
+        <div className='nav-container'>
+          <div className='lewa'>
+            <li>
+              <Link to="/">Strona główna</Link>
+            </li>
+            <li>
+              <Link to="/cart">Koszyk</Link>
+            </li>
+          </div>
+            {!user && (
+            <div className='login'>
+              <li>
+                <Link to="/login">Zaloguj</Link>
+              </li>
+              <li>
+                <Link to="/register">Zarejestruj</Link>
+              </li>
+            </div>
+            )}
+        </div>
+        
+        
+        {user && (
+          <>
+            {user.admin && (
+              <li>
+                <Link to="/admin">Panel admina</Link>
+              </li>
+            )}
+            <li>
+              <button onClick={handleLogout}>Logout</button>
+            </li>
+            <li>Zalogowany: {user.email}</li>
+          </>
+        )}
+      </ul>
+    </nav>
   );
 }
 

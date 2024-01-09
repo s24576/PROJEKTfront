@@ -22,7 +22,7 @@ function Stars({ onRatingChange }) {
           <FaStar
             className="star"
             size={30}
-            color={currentRating <= (hover || rating) ? "yellow" : "grey"}
+            color={currentRating <= (hover || rating) ? "#FFD700" : "grey"}
           />
         </label>
       );

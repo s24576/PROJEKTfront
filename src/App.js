@@ -12,6 +12,7 @@ import Cart from './components/cart/Cart';
 import Shipping from './components/cart/Shipping';
 import Order from './components/cart/Order';
 import { SortProvider } from './components/context/SortContext';
+import './styles/main.less';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
       <UserProvider>
         <ItemsProvider>
         <SortProvider>
-          <div>
+          <div className='App'>
             <Navbar />
             <Routes>
               <Route path="/login" element={<Login />} />

@@ -1,0 +1,57 @@
+.itemCards-container {
+    display: grid;
+    grid-template-columns: 20% 80%;
+}
+
+.sortForm {
+    grid-row: span 5;
+    margin: 10px;
+    padding: 10px;
+    padding-right: 0;
+}
+
+.itemCard {
+    border: 1px solid #E4A982;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: filter 2s ease-in-out;
+}
+
+.itemDetails{
+    align-items: center;
+    justify-content: space-around;
+    padding-left: 50px;
+}
+
+.itemDetails .price ::after{
+    content: ' zł';
+}
+
+.itemCard .cardButtons{
+    display: none;
+}
+
+.itemCard:hover .itemImage,.itemCard:hover .itemDetails{
+    filter: blur(2px) opacity(0.8);
+}
+
+.itemCard:hover .cardButtons {
+    position: absolute;
+    display: flex;    
+    flex-direction: column;
+}
+
+.cardButtons button {
+    padding: 5px;
+    margin-bottom: 20px;
+    background-color: rgba(240, 140, 140);
+    cursor: pointer;
+}
+
+.cardButtons button:hover {
+    background-color: #E57F84;
+}
