@@ -1,20 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from './context/UserContext';
 import '../styles/navbar.less'
 
 function Navbar() {
+  const navigate= useNavigate();
   const { user, setUser } = useContext(UserContext);
-  const [theme, setTheme] = useState('theme-light');
 
   const handleLogout = () => {
     localStorage.removeItem('loginToken');
     setUser(null);
   };
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+  const handleUser = () =>{
+    const address = '/user/'+user._id;
+    navigate(address);
+  }
 
   return (
     <nav>
@@ -48,7 +49,7 @@ function Navbar() {
                 <Link to="/admin">Panel admina</Link>
               </li>
             )}
-            <li>Zalogowany: {user.email}</li>
+            <li onClick={handleUser}>Zalogowany: {user.email}</li>
             <li>
               <button onClick={handleLogout}>Logout</button>
             </li>

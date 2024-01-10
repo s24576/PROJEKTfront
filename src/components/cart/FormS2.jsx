@@ -1,10 +1,11 @@
 import React, { useState, useContext} from "react";
+import { useNavigate } from "react-router-dom";
 import Modal from 'react-modal';
 import axios from "axios";
 import { ItemsContext } from "../context/ItemsContext";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Navigate } from "react-router-dom";
+
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Pole jest wymagane'),
@@ -17,6 +18,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function FormS2() {
+    const navigate = useNavigate();
     const {cart, setCart}=useContext(ItemsContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState(null);
@@ -32,7 +34,7 @@ function FormS2() {
 
     const handleConfirm = async () => {
         try {
-            const response = await axios.post('http://localhost:3001/api/add/order', {
+            const response = await axios.post('http://localhost:3001/api/order/add', {
                 type: "shipping2",
                 cart: cart,
                 shipping: {
@@ -45,6 +47,9 @@ function FormS2() {
                     city: formData.city,
                 }
             });
+
+            const address = '/order/'+response.data.id;
+            navigate(address);
             setCart(null);
         } catch (error) {
             console.error("Error:", error);

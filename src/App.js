@@ -11,6 +11,7 @@ import ItemInfo from './components/items/ItemInfo';
 import Cart from './components/cart/Cart';
 import Shipping from './components/cart/Shipping';
 import Order from './components/cart/Order';
+import User from './components/login/User';
 import { SortProvider } from './components/context/SortContext';
 import './styles/main.less';
 
@@ -25,7 +26,8 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              
+              <Route path="/user/:userId" element={<User />} />
+
               <Route path="/" element={<Main />} />
               <Route path="/info/:itemId" element={<ItemInfo />} />
               <Route path="/cart" element={<Cart />} />
