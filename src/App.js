@@ -13,7 +13,7 @@ import Shipping from './components/cart/Shipping';
 import Order from './components/cart/Order';
 import User from './components/login/User';
 import { SortProvider } from './components/context/SortContext';
-import './styles/main.less';
+import './styles/main.css';
 
 function App() {
   return (

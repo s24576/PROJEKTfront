@@ -4,7 +4,7 @@ import { ItemsContext } from "./context/ItemsContext";
 import { SortContext } from "./context/SortContext";
 import SortForm from "./sort/SortForm";
 import axios from "axios";
-import '../styles/mainComponent.css';
+
 
 const validateNumber = (input) => {
   return isFinite(input);
@@ -33,7 +33,6 @@ function Main() {
       (parseFloat(maxPrice) < parseFloat(minPrice) && parseFloat(maxPrice) !== 0) ||
       parseFloat(maxPrice) < 0
     ){
-      console.log("Błąd w min albo max");
       return;
     }
 
@@ -42,7 +41,7 @@ function Main() {
     }
 
     try{
-      console.log(minPrice);
+
       const response = await axios.get('http://localhost:3001/api/item/sort',{
       params: {
         minPrice: minPrice,
@@ -52,7 +51,6 @@ function Main() {
         sortOrder: sortOrder,
       }});
 
-      console.log(response.data.items)
       setSortedItems(response.data.items);
 
     }catch(error){
@@ -78,10 +76,14 @@ function Main() {
 
   return (
       <div className="itemCards-container">
-      <SortForm handleSort={handleSort} />
-        {sortedItems.map((item) => (
-          <ItemCard key={item._id} item={item} />
-        ))}
+        <SortForm handleSort={handleSort} />
+        <div className="loop-container">
+          {sortedItems.map((item) => (
+            <div className="loop-item" key={item._id}>
+              <ItemCard item={item} />
+            </div>
+          ))}
+        </div>
       </div>
   );
 }
