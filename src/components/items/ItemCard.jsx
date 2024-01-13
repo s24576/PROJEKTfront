@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ItemsContext } from "../context/ItemsContext";
+import ShippingPrice from "./ShippingPrice";
 
 function ItemCards({ item }) {
   const { cart, setCart } = useContext(ItemsContext);
@@ -33,11 +34,10 @@ function ItemCards({ item }) {
           alt={item.name}
           style={{ width: 'auto', height: '200px' }}
         />
-        
       </div>
       <div className="itemDetails">
         <h4>{item.name}</h4>
-        <div className="price"><p>Cena: {item.price}</p></div>
+        <ShippingPrice price={item.price} shipping1={item.shipping1} shipping2={item.shipping2}/>
         <p>Opis: {shortDesc}</p>
         <p>Ilość: {item.quantity}</p>
       </div>

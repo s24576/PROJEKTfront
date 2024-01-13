@@ -1,9 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useEffect } from "react";
 import { SortContext } from "../context/SortContext";
 
 function SortForm({ handleSort }) {
   const { minPrice, setMinPrice, maxPrice, setMaxPrice, category, setCategory, orderBy, setOrderBy, sortOrder, setSortOrder } = useContext(SortContext);
   const { allCategories } = useContext(SortContext);
+  const minPriceInputRef = useRef(null);
+
+  useEffect(() => {
+    minPriceInputRef.current.focus();
+  }, []);
+
   return (
     <div className="sortForm">
         <form onSubmit={handleSort}>
@@ -14,6 +20,7 @@ function SortForm({ handleSort }) {
                 name="minPrice"
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
+                ref={minPriceInputRef}
             />
             <br/>
 
@@ -31,7 +38,7 @@ function SortForm({ handleSort }) {
             <select
                 id="category"
                 name="category"
-                value={category}
+                value={category}    
                 onChange={(e) => setCategory(e.target.value)}
             >
                 <option value="">Wybierz kategorię</option>

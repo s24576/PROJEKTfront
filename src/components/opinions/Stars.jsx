@@ -3,7 +3,7 @@ import { FaStar } from "react-icons/fa";
 
 function Stars({ onRatingChange }) {
   const [rating, setRating] = useState(1);
-  const [hover, setHover] = useState(null);
+  const [hover] = useState(null);
 
   const stars = useMemo(() => {
     return [...Array(5)].map((star, index) => {
