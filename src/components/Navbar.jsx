@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState} from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from './context/UserContext';
-import '../styles/navbar.less'
+import '../styles/navbar.sass';
 
 function Navbar() {
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
 
   const handleLogout = () => {
@@ -12,36 +12,30 @@ function Navbar() {
     setUser(null);
   };
 
-  const handleUser = () =>{
-    const address = '/user/'+user._id;
+  const handleUser = () => {
+    const address = '/user/' + user._id;
     navigate(address);
-  }
+  };
 
   return (
     <nav>
-      <ul>
-        <div className='nav-container'>
-          <div className='lewa'>
+      <ul className='nav-container'>
+          <li>
+            <Link to="/">Strona główna</Link>
+          </li>
+          <li>
+            <Link to="/cart">Koszyk</Link>
+          </li>
+        {!user && (
+          <div className='login'>
             <li>
-              <Link to="/">Strona główna</Link>
+              <Link to="/login">Zaloguj</Link>
             </li>
             <li>
-              <Link to="/cart">Koszyk</Link>
+              <Link to="/register">Zarejestruj</Link>
             </li>
           </div>
-            {!user && (
-            <div className='login'>
-              <li>
-                <Link to="/login">Zaloguj</Link>
-              </li>
-              <li>
-                <Link to="/register">Zarejestruj</Link>
-              </li>
-            </div>
-            )}
-        </div>
-        
-        
+        )}
         {user && (
           <>
             {user.admin && (
@@ -49,10 +43,10 @@ function Navbar() {
                 <Link to="/admin">Panel admina</Link>
               </li>
             )}
-            <li onClick={handleUser}>Zalogowany: {user.email}</li>
-            <li>
-              <button onClick={handleLogout}>Logout</button>
-            </li>
+              <div className='navButton'>
+                <li><button onClick={handleUser}>Historia zamówień</button></li>
+                <li><button onClick={handleLogout}>Wyloguj</button></li>
+              </div>
           </>
         )}
       </ul>

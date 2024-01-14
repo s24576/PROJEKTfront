@@ -28,22 +28,22 @@ const User: React.FC = () => {
   }, [userId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="text-center">Loading...</div>;
   }
 
   return (
-    <div>
+    <div className="container mx-auto my-8">
       {orderHistory.length === 0 ? (
-        <div>Brak zamówień w historii</div>
+        <div className="text-center">Brak zamówień w historii</div>
       ) : (
         <div>
-          <h2>Historia zamówień</h2>
+          <h2 className="text-2xl font-bold mb-4">Historia zamówień</h2>
           <ul>
             {orderHistory.map((order) => (
-              <li key={order._id}>
-                <p>Zamówienia: {order._id}</p>
+              <li key={order._id} className="flex items-center mb-4">
+                <p className="font-semibold mr-4">Zamówienie: {order._id}</p>
                 <Link to={`/order/${order._id}`}>
-                  <button>Szczegóły</button>
+                  <button className="bg-blue-500 text-white px-4 py-2 rounded">Szczegóły</button>
                 </Link>
               </li>
             ))}

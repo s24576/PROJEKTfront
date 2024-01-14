@@ -1,0 +1,73 @@
+$primary-color: #3498db;
+
+nav
+  margin: 0
+  padding: 0
+
+.all-style
+  text-align: center
+  font-size: (75px + 50 - 200 / 4 * 2 )
+
+@mixin color-scheme($background, $text)
+  background-color: $background
+  color: $text
+
+@mixin nav-item-style($i)
+  width: 100%
+  cursor: pointer
+  display: flex
+
+  @if $i % 3 == 0
+    @include color-scheme(green, black) // Unique color for "Panel admina"
+  @else if $i % 2 == 0
+    @include color-scheme(blue, black) // One of the alternating colors
+  @else
+    @include color-scheme(yellow, black) // Another alternating color
+
+  a
+    width: 100%
+    height: 100%
+    display: block
+
+.nav-container
+  @extend .all-style
+  list-style: none
+  padding: 0
+  margin: 0
+  display: flex
+  justify-content: space-around
+  width: 100%
+
+  @for $i from 1 through 3
+    li:nth-child(#{$i})
+      @include nav-item-style($i)
+
+.login
+  @extend .all-style
+  display: flex
+  list-style: none
+  padding: 0
+  margin: 0
+  width: 100%
+  height: 100%
+  a
+    width: 100%
+    height: 100%
+    display: block
+
+.navButton
+  display: flex
+  width: 100%
+  height: 100%
+  padding: 0
+  margin: 0
+
+  li:nth-child(2) button // Style for the "Logout" button
+    @include nav-item-style(2)
+    display: block
+    width: 100%
+  
+  li:nth-child(1) button // Style for the "Zalogowany: email" button
+    @include nav-item-style(1)
+    height: 100%
+    display: block

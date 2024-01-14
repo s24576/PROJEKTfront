@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useLayoutEffect, useEffect } from "react";
 import ItemCard from "./items/ItemCard";
 import { ItemsContext } from "./context/ItemsContext";
 import { SortContext } from "./context/SortContext";
@@ -20,7 +20,7 @@ function Main() {
   const {orderBy, setOrderBy} = useContext(SortContext);
   const {sortOrder, setSortOrder} = useContext(SortContext);
 
-  useEffect(()=>{
+  useLayoutEffect(() => {
     fetchData();
   }, [setItems]);
 
@@ -75,16 +75,17 @@ function Main() {
   }
 
   return (
-      <div className="itemCards-container">
-        <SortForm handleSort={handleSort} />
-        <div className="loop-container">
-          {sortedItems.map((item) => (
-            <div className="loop-item" key={item._id}>
-              <ItemCard item={item} />
-            </div>
-          ))}
-        </div>
+    <div className="container mx-auto p-4">
+      <SortForm handleSort={handleSort} />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {sortedItems.map((item) => (
+          <div key={item._id}>
+            <ItemCard item={item} />
+          </div>
+        ))}
       </div>
+    </div>
   );
 }
 

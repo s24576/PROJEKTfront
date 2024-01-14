@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ItemsContext } from "../context/ItemsContext";
 import ShippingPrice from "./ShippingPrice";
@@ -7,6 +7,7 @@ function ItemCards({ item }) {
   const { cart, setCart } = useContext(ItemsContext);
   const navigate = useNavigate();
   const shortDesc = item.description.split(".")[0];
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleRedirect = () => {
     const address = "/info/" + item._id;
@@ -27,24 +28,44 @@ function ItemCards({ item }) {
   };
 
   return (
-    <div className="itemCard">
-      <div className="itemImage">
+    <div
+      className="bg-white rounded-md shadow-md p-4 mb-4"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="flex justify-center mb-4">
         <img
           src={item.photo}
           alt={item.name}
-          style={{ width: 'auto', height: '200px' }}
+          className="w-auto h-40 object-contain"
         />
       </div>
-      <div className="itemDetails">
-        <h4>{item.name}</h4>
-        <ShippingPrice price={item.price} shipping1={item.shipping1} shipping2={item.shipping2}/>
-        <p>Opis: {shortDesc}</p>
-        <p>Ilość: {item.quantity}</p>
+      <div className="text-center">
+        <h4 className="text-lg font-semibold mb-2">{item.name}</h4>
+        <ShippingPrice
+          price={item.price}
+          shipping1={item.shipping1}
+          shipping2={item.shipping2}
+        />
+        <p className="text-sm">Opis: {shortDesc}</p>
+        <p className="text-sm">Ilość: {item.quantity}</p>
       </div>
-      <div className="cardButtons">
-        <button onClick={handleRedirect}>Szczegóły</button>
-        <button onClick={handleAdd}>Dodaj do koszyka</button>
-      </div>
+      {isHovered && (
+        <div className="flex justify-center mt-4">
+          <button
+            className="bg-blue-500 text-white px-4 py-2 mr-2 rounded hover:bg-blue-600"
+            onClick={handleRedirect}
+          >
+            Szczegóły
+          </button>
+          <button
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            onClick={handleAdd}
+          >
+            Dodaj do koszyka
+          </button>
+        </div>
+      )}
     </div>
   );
 }
