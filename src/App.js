@@ -17,11 +17,12 @@ import './styles/index.css';
 
 function App() {
   return (
-    <BrowserRouter>
+    <div className='App'>
+      <BrowserRouter>
       <UserProvider>
         <ItemsProvider>
         <SortProvider>
-          <div className='App'>
+          
             <Navbar />
             <Routes>
               <Route path="/login" element={<Login />} />
@@ -36,11 +37,12 @@ function App() {
 
               <Route path="/admin" element={<Admin />} />
             </Routes>
-          </div>
           </SortProvider>
         </ItemsProvider>
       </UserProvider>
     </BrowserRouter>
+    </div>
+
   );
 }
 

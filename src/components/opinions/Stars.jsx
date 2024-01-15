@@ -9,7 +9,7 @@ function Stars({ onRatingChange }) {
     return [...Array(5)].map((star, index) => {
       const currentRating = index + 1;
       return (
-        <label key={index}>
+        <label key={index} className="flex items-center">
           <input
             type="radio"
             name="rating"
@@ -18,6 +18,7 @@ function Stars({ onRatingChange }) {
               setRating(currentRating);
               onRatingChange(currentRating);
             }}
+            className="hidden"
           />
           <FaStar
             className="star"
@@ -29,11 +30,7 @@ function Stars({ onRatingChange }) {
     });
   }, [hover, rating, onRatingChange]);
 
-  return (
-    <div>
-      {stars}
-    </div>
-  );
+  return <div className="flex">{stars}</div>;
 }
 
 export default Stars;

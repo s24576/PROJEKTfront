@@ -9,7 +9,7 @@ const cartReducer = (state, action) => {
   switch (action.type) {
     case INCREASE_QUANTITY:
       return state.map((item) =>
-        item.id === action.payload.itemId 
+        item.id === action.payload.itemId
           ? { ...item, quantity: item.quantity + 1 }
           : item
       );
@@ -27,9 +27,9 @@ const cartReducer = (state, action) => {
 };
 
 function ShortItem({ item }) {
-  const { cart, setCart } = useContext(ItemsContext);
+  const { setCart } = useContext(ItemsContext);
 
-  const [state, dispatch] = useReducer(cartReducer, cart);
+  const [state, dispatch] = useReducer(cartReducer, [item]);
 
   const handleAdd = (itemId) => {
     dispatch({
@@ -61,12 +61,29 @@ function ShortItem({ item }) {
   setCart(state);
 
   return (
-    <div>
-      <h4>{item.name}</h4>
-      <button onClick={() => handleSubtract(item.id)}>-</button>
-      <p>{item.quantity}</p>
-      <button onClick={() => handleAdd(item.id)}>+</button>
-      <button onClick={() => handleRemove(item.id)}>Usuń przedmiot</button>
+    <div className="border p-4 mb-4 rounded-md">
+      <h4 className="text-xl font-semibold mb-2">{item.name}</h4>
+      <div className="flex items-center">
+        <button
+          className="bg-gray-200 px-2 py-1 rounded-md mr-2"
+          onClick={() => handleSubtract(item.id)}
+        >
+          -
+        </button>
+        <p className="text-xl">{item.quantity}</p>
+        <button
+          className="bg-gray-200 px-2 py-1 rounded-md ml-2"
+          onClick={() => handleAdd(item.id)}
+        >
+          +
+        </button>
+      </div>
+      <button
+        className="mt-2 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
+        onClick={() => handleRemove(item.id)}
+      >
+        Usuń przedmiot
+      </button>
     </div>
   );
 }

@@ -24,22 +24,27 @@ function AllOpinions({ id }) {
   }, [id, setComments]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="text-center mt-4">Loading...</div>;
   }
 
   if (error) {
     return (
-      <div>
-        <p>{error}</p>
+      <div className="text-center mt-4">
+        <p className="text-red-500">{error}</p>
       </div>
     );
   }
 
   return (
     <div>
-      {comments.map((opinion) => (
-        <Opinion key={opinion._id} opinion={opinion} />
-      ))}
+      <h2 className="text-2xl font-semibold mb-4">Komentarze:</h2>
+      {comments.length === 0 ? (
+        <p className="text-gray-500">Brak komentarzy.</p>
+      ) : (
+        comments.map((opinion) => (
+          <Opinion key={opinion._id} opinion={opinion} />
+        ))
+      )}
     </div>
   );
 }

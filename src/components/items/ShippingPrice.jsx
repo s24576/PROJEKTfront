@@ -10,10 +10,10 @@ function ShippingPrice({ price, shipping1, shipping2 }) {
 
   return (
   <div className="mx-auto p-4 flex">
-    <div className="w-1/2 relative text-lg text-gray-70">
+    <div className="price w-1/2 relative text-lg text-gray-70">
       Cena: {price}
     </div>
-    <div className="w-1/2 relative text-lg text-green-600">
+    <div className="price w-1/2 relative text-lg text-green-600">
       + Dostawa: {sPrice}
     </div>
   </div>

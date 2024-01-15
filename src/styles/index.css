@@ -9,3 +9,23 @@ body{
     background-color: ivory;
 }
 
+.price::after{
+    content: "zł";
+}
+
+.quantity::after{
+    content: " szt.";
+}
+
+.image-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+.image-container img {
+    transition: transform 0.3s ease-in-out;
+}
+  
+.image-container:hover img {
+    transform: scale(1.1) translate(-5px, -5px) rotate(5deg);
+}

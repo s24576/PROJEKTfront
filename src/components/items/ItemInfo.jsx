@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react';
+import { FaCheck } from "react-icons/fa";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ItemsContext } from '../context/ItemsContext';
@@ -13,23 +14,21 @@ const quantityReducer = (state, action) => {
   }
 };
 
-
 function ItemInfo() {
-  const {itemId} = useParams();
+  const { itemId } = useParams();
   const [item, setItem] = useState(null);
-  const {loading, setLoading} = useContext(ItemsContext);
-  const {error, setError} = useContext(ItemsContext);
+  const { loading, setLoading } = useContext(ItemsContext);
+  const { error, setError } = useContext(ItemsContext);
   const { cart, setCart } = useContext(ItemsContext);
   const [quantity, dispatch] = useReducer(quantityReducer, 1);
 
-  useEffect(()=>{
-    const fetchData=async()=>{
-      try{
-        const response = await axios.get("http://localhost:3001/api/item/byId",{params:{itemId: itemId}});
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/api/item/byId", { params: { itemId: itemId } });
         setItem(response.data.item);
         setLoading(false);
-      }
-      catch (error) {
+      } catch (error) {
         if (error.response) {
           setError(error.response.data.message);
         }
@@ -41,75 +40,96 @@ function ItemInfo() {
   }, [itemId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="text-center">Loading...</div>;
   }
   if (error) {
-      return (
-        <div>
-          <p>{error}</p>
-        </div>
-      );
+    return (
+      <div className="text-center">
+        <p>{error}</p>
+      </div>
+    );
   }
-
 
   const handleAdd = () => {
     const { _id, name, price } = item;
 
-    if (!Number.isInteger(quantity) || quantity < 1 || quantity>item.quantity) {
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity > item.quantity) {
       console.error("Invalid quantity. Please enter a valid positive number.");
       return;
     }
-    
-    const tempItem = cart.find((cartItem)=>cartItem.itemId === _id);
-    if(tempItem){
+
+    const tempItem = cart.find((cartItem) => cartItem.itemId === _id);
+    if (tempItem) {
       const updatedCart = cart.map((cartItem) =>
-            cartItem.itemId === _id ? { ...cartItem, quantity: cartItem.quantity + quantity } : cartItem
-        );
-        setCart(updatedCart);
-    }
-    else{
+        cartItem.itemId === _id ? { ...cartItem, quantity: cartItem.quantity + quantity } : cartItem
+      );
+      setCart(updatedCart);
+    } else {
       setCart((prevCart) => [...prevCart, { itemId: _id, name, price, quantity: quantity }]);
-    } 
+    }
   };
 
   return (
-    <div>
+    <div className="container mx-auto p-4">
       {item && (
-        <div>
-          <div>
-            <img
-              src={item.photo}
-              alt={item.name}
-              style={{ height: 'auto', width: 'auto', maxWidth: '100%', maxHeight: '100%' }}
-            />
-            <h4>{item.name}</h4>
-            <p>Cena: {item.price}zł</p>
-            <p>Opis: {item.description}</p>
-            <p>Ilość: {item.quantity}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="md:col-span-2 lg:col-span-1">
+            <div className="image-container">
+              <img
+                src={item.photo}
+                alt={item.name}
+                className="w-2/3 h-auto max-w-full max-h-full"
+              />
+            </div>
+            <label htmlFor="quantity" className="text-lg mt-4">Ilość:</label>
+            <div className="flex items-center">
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value={quantity}
+                min={1}
+                max={item.quantity}
+                onChange={(e) => dispatch({ type: 'SET_QUANTITY', payload: parseInt(e.target.value, 10) })}
+                className="w-16 border border-gray-400 p-2"
+              />
+              <button onClick={handleAdd} className="bg-blue-500 text-white py-2 px-4 ml-2 rounded-md">Dodaj do koszyka</button>
+            </div>
           </div>
-  
-          <div>
-            <label htmlFor="quantity">Ilość:</label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              value={quantity}
-              min={1}
-              max={item.quantity}
-              onChange={(e) => dispatch({ type: 'SET_QUANTITY', payload: parseInt(e.target.value, 10) })}
-            />
-            <button onClick={handleAdd}>Dodaj do koszyka</button>
+
+          <div className="md:col-span-1 lg:col-span-2 flex flex-col justify-center items-center bg-white p-4 rounded-md shadow-md">
+            <h4 className="text-xl font-bold">{item.name}</h4>
+            <p className="price text-lg">Cena: {item.price}</p>
+            <p className="text-lg">Opis: {item.description}</p>
+            <p className="quantity text-lg">Ilość dostępna: {item.quantity}</p>
+
+            <div className="mt-4">
+              <h5 className="text-lg font-bold mb-2">Opcje dostawy:</h5>
+              <div className="mx-auto p-4 flex">
+                <div className="w-1/2 relative text-lg text-gray-70">
+                  Paczkomat
+                </div>
+                <div className="w-1/2 relative text-lg text-gray-70">
+                  {item.shipping1 ? <FaCheck /> : 'Niedostępny'}
+                </div>
+              </div>
+              <div className="mx-auto p-4 flex">
+                <div className="w-1/2 text-lg text-gray-70">
+                  Kurier
+                </div>
+                <div className="w-1/2 relative text-lg text-gray-70">
+                  {item.shipping2 ? <FaCheck /> : 'Niedostępny'}
+                </div>
+              </div>
+            </div>
           </div>
-  
-          <div>
-            <h5>Opcje dostawy</h5>
-            <p>Paczkomat: {item.shipping1 ? 'Dostępny' : 'Niedostępny'}</p>
-            <p>Kurier: {item.shipping2 ? 'Dostępny' : 'Niedostępny'}</p>
-          </div>
-  
-          <div>
-            <Opinions id={item._id} />
+
+
+
+          <div className="md:col-span-1 lg:col-span-2">
+            <div className="mt-4">
+              <Opinions id={item._id} />
+            </div>
           </div>
         </div>
       )}

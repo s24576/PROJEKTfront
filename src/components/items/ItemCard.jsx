@@ -48,7 +48,7 @@ function ItemCards({ item }) {
           shipping2={item.shipping2}
         />
         <p className="text-sm">Opis: {shortDesc}</p>
-        <p className="text-sm">Ilość: {item.quantity}</p>
+        <p className="quantity text-sm">Ilość: {item.quantity}</p>
       </div>
       {isHovered && (
         <div className="flex justify-center mt-4">

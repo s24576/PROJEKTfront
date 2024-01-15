@@ -1,9 +1,12 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import {UserContext} from '../context/UserContext';
+import axios from 'axios';
+
 
 const User: React.FC = () => {
   const { userId } = useParams();
+  const user = useContext(UserContext);
   const [orderHistory, setOrderHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
