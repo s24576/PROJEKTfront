@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import Opinion from "./Opinion";
 import { OpinionsContext } from "../context/OpinionsContext";
+import { UserContext } from "../context/UserContext";
 
 function AllOpinions({ id }) {
+  const { user } = useContext(UserContext);
   const { comments, setComments, fetchAllComments } = useContext(OpinionsContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

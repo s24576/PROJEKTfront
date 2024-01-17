@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
-import { OpinionsProvider } from '../context/OpinionsContext';
 import ItemList from './ItemList';
 import AddItem from './AddItem';
-import EditItem from './EditItem';
+import ShippingChart from './ShippingChart';
 
 function Admin() {
     const { user } = useContext(UserContext);
@@ -14,10 +13,9 @@ function Admin() {
 
     return (
     <div>
-        <OpinionsProvider>
-            <ItemList />
-        </OpinionsProvider>
+        <ItemList />
         <AddItem />
+        <ShippingChart />
     </div>
     );
 }

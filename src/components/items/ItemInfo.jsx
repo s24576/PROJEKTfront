@@ -19,7 +19,7 @@ function ItemInfo() {
   const [item, setItem] = useState(null);
   const { loading, setLoading } = useContext(ItemsContext);
   const { error, setError } = useContext(ItemsContext);
-  const { cart, setCart } = useContext(ItemsContext);
+  const { cart, setCart, shippingAvalivable, setShippingAvalivable, } = useContext(ItemsContext);
   const [quantity, dispatch] = useReducer(quantityReducer, 1);
 
   useEffect(() => {
@@ -58,6 +58,10 @@ function ItemInfo() {
       return;
     }
 
+    if(shippingAvalivable){
+      setShippingAvalivable(shipping1);
+    }
+
     const tempItem = cart.find((cartItem) => cartItem.itemId === _id);
     if (tempItem) {
       const updatedCart = cart.map((cartItem) =>
@@ -65,7 +69,7 @@ function ItemInfo() {
       );
       setCart(updatedCart);
     } else {
-      setCart((prevCart) => [...prevCart, { itemId: _id, name, price, quantity: quantity }]);
+      setCart((prevCart) => [...prevCart, { itemId: _id, name, price, quantity: quantity, shipping1: shipping1 }]);
     }
   };
 

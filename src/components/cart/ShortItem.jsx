@@ -1,91 +1,64 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext } from "react";
 import { ItemsContext } from "../context/ItemsContext";
 
-const INCREASE_QUANTITY = "INCREASE_QUANTITY";
-const DECREASE_QUANTITY = "DECREASE_QUANTITY";
-const REMOVE_ITEM = "REMOVE_ITEM";
+const ShortItem = ({ item }) => {
+  const { cart, setCart, shippingAvalivable, setShippingAvalivable, } = useContext(ItemsContext);
 
-const cartReducer = (state, action) => {
-  switch (action.type) {
-    case INCREASE_QUANTITY:
-      return state.map((item) =>
-        item.id === action.payload.itemId
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      );
-    case DECREASE_QUANTITY:
-      return state.map((item) =>
-        item.id === action.payload.itemId && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      );
-    case REMOVE_ITEM:
-      return state.filter((item) => item.id !== action.payload.itemId);
-    default:
-      return state;
-  }
-};
+  const handleAdd = () => {
+    const updatedCart = cart.map(cartItem =>
+      cartItem.itemId === item.itemId
+        ? { ...cartItem, quantity: cartItem.quantity + 1 }
+        : cartItem
+    );
 
-function ShortItem({ item }) {
-  const { setCart } = useContext(ItemsContext);
-
-  const [state, dispatch] = useReducer(cartReducer, [item]);
-
-  const handleAdd = (itemId) => {
-    dispatch({
-      type: INCREASE_QUANTITY,
-      payload: {
-        itemId,
-      },
-    });
+    setCart(updatedCart);
   };
 
-  const handleSubtract = (itemId) => {
-    dispatch({
-      type: DECREASE_QUANTITY,
-      payload: {
-        itemId,
-      },
-    });
+  const handleSubtract = () => {
+    const updatedCart = cart.map(cartItem =>
+      cartItem.itemId === item.itemId && cartItem.quantity > 1
+        ? { ...cartItem, quantity: cartItem.quantity - 1 }
+        : cartItem
+    );
+
+    setCart(updatedCart);
   };
 
-  const handleRemove = (itemId) => {
-    dispatch({
-      type: REMOVE_ITEM,
-      payload: {
-        itemId,
-      },
-    });
-  };
+  const handleRemove = () => {
+    const updatedCart = cart.filter(cartItem => cartItem.itemId !== item.itemId);
+  
+    const isShippingAvailable = updatedCart.some(cartItem => !cartItem.shipping1);
+    setShippingAvalivable(!isShippingAvailable);
 
-  setCart(state);
+    setCart(updatedCart);
+  };
 
   return (
-    <div className="border p-4 mb-4 rounded-md">
+    <div className="border p-4 mb-4 rounded-md bg-white">
       <h4 className="text-xl font-semibold mb-2">{item.name}</h4>
       <div className="flex items-center">
         <button
           className="bg-gray-200 px-2 py-1 rounded-md mr-2"
-          onClick={() => handleSubtract(item.id)}
+          onClick={handleSubtract}
         >
           -
         </button>
-        <p className="text-xl">{item.quantity}</p>
+        <p className="quantity text-xl">{item.quantity}</p>
         <button
           className="bg-gray-200 px-2 py-1 rounded-md ml-2"
-          onClick={() => handleAdd(item.id)}
+          onClick={handleAdd}
         >
           +
         </button>
       </div>
       <button
         className="mt-2 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700"
-        onClick={() => handleRemove(item.id)}
+        onClick={handleRemove}
       >
         Usuń przedmiot
       </button>
     </div>
   );
-}
+};
 
 export default ShortItem;

@@ -10,6 +10,7 @@ export const ItemsProvider = ({ children }) => {
   const [delivery, setDelivery] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [shippingAvalivable, setShippingAvalivable] = useState(true);
 
   const fetchData = async () => {
     try {
@@ -25,16 +26,13 @@ export const ItemsProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [setItems]);
-
   return (
     <ItemsContext.Provider value={{
       item, setItem,
       items, setItems, fetchData,
       cart, setCart,
       delivery, setDelivery,
+      shippingAvalivable, setShippingAvalivable,
       loading, setLoading,
       error, setError }}>
       {children}

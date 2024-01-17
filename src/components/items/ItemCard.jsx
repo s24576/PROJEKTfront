@@ -4,7 +4,7 @@ import { ItemsContext } from "../context/ItemsContext";
 import ShippingPrice from "./ShippingPrice";
 
 function ItemCards({ item }) {
-  const { cart, setCart } = useContext(ItemsContext);
+  const { cart, setCart, shippingAvalivable, setShippingAvalivable, } = useContext(ItemsContext);
   const navigate = useNavigate();
   const shortDesc = item.description.split(".")[0];
   const [isHovered, setIsHovered] = useState(false);
@@ -15,21 +15,27 @@ function ItemCards({ item }) {
   };
 
   const handleAdd = () => {
-    const { _id, name, price } = item;
+    const { _id, name, price, shipping1 } = item;
     const tempItem = cart.find((cartItem) => cartItem.itemId === _id);
+
+    if(shippingAvalivable){
+      setShippingAvalivable(shipping1);
+    }
+
     if (tempItem) {
-      const updatedCart = cart.map((cartItem) =>
-        cartItem.itemId === _id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+      setCart((prevCart) =>
+        prevCart.map((cartItem) =>
+          cartItem.itemId === _id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+        )
       );
-      setCart(updatedCart);
     } else {
-      setCart((prevCart) => [...prevCart, { itemId: _id, name, price, quantity: 1 }]);
+      setCart((prevCart) => [...prevCart, { itemId: _id, name, price, quantity: 1, shipping1: shipping1 }]);
     }
   };
-
+  
   return (
     <div
-      className="bg-white rounded-md shadow-md p-4 mb-4"
+      className="bg-white rounded-md shadow-md p-4 mb-4 w-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

@@ -31,8 +31,6 @@ const validationSchema = Yup.object().shape({
       return givenValue;
     })
     .required('Pole jest wymagane'),
-  shipping1: Yup.boolean().required('Pole jest wymagane'),
-  shipping2: Yup.boolean().required('Pole jest wymagane'),
 });
 
 function AddItem() {
@@ -49,57 +47,76 @@ function AddItem() {
   };
 
   return (
-    <div>
+    <div className="max-w-md mx-auto my-8 p-6 bg-white shadow-md">
       <Formik
-        initialValues={{ name: '', category:'', photo: '', price: '', description: '', quantity: '', shipping1: false, shipping2: false }}
+        initialValues={{ name: '', category: '', photo: '', price: '', description: '', quantity: '', shipping1: false, shipping2: true }}
         validationSchema={validationSchema}
         onSubmit={handleAdd}
       >
         {({ isSubmitting }) => (
-          <Form>
-            <h2>Dodaj przedmiot</h2>
-            <div>
-              <label htmlFor="name">Nazwa:</label>
-              <Field type="text" id="name" name="name" />
-              <ErrorMessage name="name" component="div" />
+          <Form className="space-y-4">
+            <h2 className="text-2xl font-bold">Dodaj przedmiot</h2>
+  
+            <div className="flex flex-col">
+              <label htmlFor="name" className="text-sm font-semibold mb-1">Nazwa:</label>
+              <Field type="text" id="name" name="name" className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" />
+              <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
             </div>
-            <div>
-              <label htmlFor="category">Kategoria:</label>
-              <Field type="text" id="category" name="category" />
-              <ErrorMessage name="category" component="div" />
+  
+            <div className="flex flex-col">
+              <label htmlFor="category" className="text-sm font-semibold mb-1">Kategoria:</label>
+              <Field type="text" id="category" name="category" className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" />
+              <ErrorMessage name="category" component="div" className="text-red-500 text-sm mt-1" />
             </div>
-            <div>
-              <label htmlFor="photo">Link do zdjęcia:</label>
-              <Field type="url" id="photo" name="photo" />
-              <ErrorMessage name="photo" component="div" />
+  
+            <div className="flex flex-col">
+              <label htmlFor="photo" className="text-sm font-semibold mb-1">Link do zdjęcia:</label>
+              <Field type="url" id="photo" name="photo" className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" />
+              <ErrorMessage name="photo" component="div" className="text-red-500 text-sm mt-1" />
             </div>
-            <div>
-              <label htmlFor="price">Cena:</label>
-              <Field type="number" id="price" name="price" />
-              <ErrorMessage name="price" component="div" />
+  
+            <div className="flex flex-col">
+              <label htmlFor="price" className="text-sm font-semibold mb-1">Cena:</label>
+              <Field type="number" id="price" name="price" className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" />
+              <ErrorMessage name="price" component="div" className="text-red-500 text-sm mt-1" />
             </div>
-            <div>
-              <label htmlFor="description">Opis:</label>
-              <Field as="textarea" id="description" name="description" />
-              <ErrorMessage name="description" component="div" />
+  
+            <div className="flex flex-col">
+              <label htmlFor="description" className="text-sm font-semibold mb-1">Opis:</label>
+              <Field as="textarea" id="description" name="description" className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" />
+              <ErrorMessage name="description" component="div" className="text-red-500 text-sm mt-1" />
             </div>
-            <div>
-              <label htmlFor="quantity">Ilość:</label>
-              <Field type="number" id="quantity" name="quantity" />
-              <ErrorMessage name="quantity" component="div" />
+  
+            <div className="flex flex-col">
+              <label htmlFor="quantity" className="text-sm font-semibold mb-1">Ilość:</label>
+              <Field type="number" id="quantity" name="quantity" className="p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" />
+              <ErrorMessage name="quantity" component="div" className="text-red-500 text-sm mt-1" />
             </div>
-            <div>
-              <label htmlFor="shipping1">Dostawa paczkomat:</label>
-              <Field type="checkbox" id="shipping1" name="shipping1" />
-              <ErrorMessage name="shipping1" component="div" />
+  
+            <div className="flex items-center">
+              <label htmlFor="shipping1" className="text-sm font-semibold mr-2">Dostawa paczkomat:</label>
+              <Field type="checkbox" id="shipping1" name="shipping1" className="form-checkbox h-5 w-5 text-blue-500" />
             </div>
-            <div>
-              <label htmlFor="shipping2">Dostawa kurier:</label>
-              <Field type="checkbox" id="shipping2" name="shipping2" />
-              <ErrorMessage name="shipping2" component="div" />
+  
+            <div className="flex items-center">
+              <label htmlFor="shipping2" className="text-sm font-semibold mr-2">Dostawa kurier:</label>
+              <Field
+                type="checkbox"
+                id="shipping2"
+                name="shipping2"
+                value={true}
+                checked={true}
+                disabled={true}
+                className="form-checkbox h-5 w-5 text-blue-500"
+              />
             </div>
-            <div>
-              <button type="submit" disabled={isSubmitting}>
+  
+            <div className="flex items-center">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
                 Dodaj
               </button>
             </div>
@@ -107,7 +124,7 @@ function AddItem() {
         )}
       </Formik>
     </div>
-  );
+  );  
 }
 
 export default AddItem;

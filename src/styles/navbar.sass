@@ -1,4 +1,6 @@
 $primary-color: #3498db;
+$secondary-color: #DB3455;
+$admin: #DADB34;
 
 nav
   margin: 0
@@ -18,11 +20,11 @@ nav
   display: flex
 
   @if $i % 3 == 0
-    @include color-scheme(green, black) // Unique color for "Panel admina"
+    @include color-scheme($admin, white)
   @else if $i % 2 == 0
-    @include color-scheme(blue, black) // One of the alternating colors
+    @include color-scheme($primary-color, white)
   @else
-    @include color-scheme(yellow, black) // Another alternating color
+    @include color-scheme($secondary-color, white)
 
   a
     width: 100%
@@ -62,12 +64,12 @@ nav
   padding: 0
   margin: 0
 
-  li:nth-child(2) button // Style for the "Logout" button
+  li:nth-child(2)
     @include nav-item-style(2)
     display: block
     width: 100%
   
-  li:nth-child(1) button // Style for the "Zalogowany: email" button
+  li:nth-child(1)
     @include nav-item-style(1)
     height: 100%
     display: block

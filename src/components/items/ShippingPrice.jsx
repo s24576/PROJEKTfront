@@ -9,14 +9,14 @@ function ShippingPrice({ price, shipping1, shipping2 }) {
   }
 
   return (
-  <div className="mx-auto p-4 flex">
-    <div className="price w-1/2 relative text-lg text-gray-70">
-      Cena: {price}
+    <div className="mx-auto p-4 flex flex-col md:flex-row">
+      <div className="price mb-2 md:mb-0 md:w-1/2 relative text-md text-gray-70">
+        Cena: {price}
+      </div>
+      <div className="price md:w-1/2 relative text-md text-green-600">
+        Dostawa: {sPrice}
+      </div>
     </div>
-    <div className="price w-1/2 relative text-lg text-green-600">
-      + Dostawa: {sPrice}
-    </div>
-  </div>
   );
 }
 

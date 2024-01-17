@@ -5,7 +5,7 @@ function Opinion({ opinion }) {
     const { user } = useContext(UserContext);
 
     const handleDelete = async (commentId) => {
-        console.log("aa");
+        
     };
 
     return (

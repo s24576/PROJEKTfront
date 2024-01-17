@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { UserProvider } from './components/context/UserContext';
 import { ItemsProvider } from './components/context/ItemsContext';
+import { OpinionsProvider } from './components/context/OpinionsContext';
 import Login from './components/login/Login';
 import Register from './components/login/Register';
 import Main from './components/Main';
@@ -22,7 +23,7 @@ function App() {
       <UserProvider>
         <ItemsProvider>
         <SortProvider>
-          
+        <OpinionsProvider>
             <Navbar />
             <Routes>
               <Route path="/login" element={<Login />} />
@@ -37,6 +38,7 @@ function App() {
 
               <Route path="/admin" element={<Admin />} />
             </Routes>
+          </OpinionsProvider>
           </SortProvider>
         </ItemsProvider>
       </UserProvider>
