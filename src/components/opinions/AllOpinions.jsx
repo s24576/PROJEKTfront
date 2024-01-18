@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import Opinion from "./Opinion";
+import axios from "axios";
 import { OpinionsContext } from "../context/OpinionsContext";
 import { UserContext } from "../context/UserContext";
 
@@ -25,6 +25,20 @@ function AllOpinions({ id }) {
     fetchData();
   }, [id, setComments]);
 
+  const handleDelete = async (commentId) => {
+    try {
+      await axios.delete("http://localhost:3001/api/opinion/deleteComment", {
+        params: { commentId: commentId },
+      });
+      
+      fetchAllComments(id, () => setLoading(false));
+    } catch (error) {
+      if (error.response) {
+        setError(error.response.data.message);
+      }
+    }
+  };
+
   if (loading) {
     return <div className="text-center mt-4">Loading...</div>;
   }
@@ -44,7 +58,18 @@ function AllOpinions({ id }) {
         <p className="text-gray-500">Brak komentarzy.</p>
       ) : (
         comments.map((opinion) => (
-          <Opinion key={opinion._id} opinion={opinion} />
+          <div key={opinion._id} className="bg-white p-4 mb-4 shadow-md rounded-md">
+            <h4 className="text-xl font-semibold mb-2">Autor: {opinion.author}</h4>
+            <p className="text-gray-700 mb-4">Treść: {opinion.comment}</p>
+            {user && user.admin && (
+              <button
+                onClick={() => handleDelete(opinion._id)}
+                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+              >
+                Usuń
+              </button>
+            )}
+          </div>
         ))
       )}
     </div>

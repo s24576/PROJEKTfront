@@ -35,7 +35,7 @@ const User: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto my-8">
+    <div className="container mx-auto my-8 bg-white">
       {orderHistory.length === 0 ? (
         <div className="text-center">Brak zamówień w historii</div>
       ) : (

@@ -15,22 +15,27 @@ function ItemCards({ item }) {
   };
 
   const handleAdd = () => {
-    const { _id, name, price, shipping1 } = item;
+    const { _id, name, price, quantity, shipping1 } = item;
     const tempItem = cart.find((cartItem) => cartItem.itemId === _id);
 
     if(shippingAvalivable){
       setShippingAvalivable(shipping1);
     }
 
-    if (tempItem) {
-      setCart((prevCart) =>
-        prevCart.map((cartItem) =>
-          cartItem.itemId === _id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
-        )
-      );
-    } else {
-      setCart((prevCart) => [...prevCart, { itemId: _id, name, price, quantity: 1, shipping1: shipping1 }]);
+    if(quantity>0){
+      if (tempItem) {
+        if(tempItem.quantity + 1<quantity){
+          setCart((prevCart) =>
+          prevCart.map((cartItem) =>
+            cartItem.itemId === _id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+            )
+          );
+        }
+      } else {
+        setCart((prevCart) => [...prevCart, { itemId: _id, name, price, quantity: 1, maxQuantity: quantity, shipping1: shipping1 }]);
+      }
     }
+    
   };
   
   return (

@@ -20,12 +20,15 @@ body{
 .image-container {
     position: relative;
     overflow: hidden;
-  }
-  
-.image-container img {
-    transition: transform 0.3s ease-in-out;
 }
-  
+
+.image-container img {
+    transition: transform 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out, border-radius 0.3s ease-in-out;
+}
+
 .image-container:hover img {
     transform: scale(1.1) translate(-5px, -5px) rotate(5deg);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
 }

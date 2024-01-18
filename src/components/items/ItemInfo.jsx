@@ -9,6 +9,8 @@ const quantityReducer = (state, action) => {
   switch (action.type) {
     case 'SET_QUANTITY':
       return action.payload;
+    case 'ADD_TO_CART':
+      return 1;
     default:
       return state;
   }
@@ -20,7 +22,7 @@ function ItemInfo() {
   const { loading, setLoading } = useContext(ItemsContext);
   const { error, setError } = useContext(ItemsContext);
   const { cart, setCart, shippingAvalivable, setShippingAvalivable, } = useContext(ItemsContext);
-  const [quantity, dispatch] = useReducer(quantityReducer, 1);
+  const [quantitySet, dispatch] = useReducer(quantityReducer, 1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,9 +53,9 @@ function ItemInfo() {
   }
 
   const handleAdd = () => {
-    const { _id, name, price } = item;
+    const { _id, name, price, quantity, shipping1 } = item;
 
-    if (!Number.isInteger(quantity) || quantity < 1 || quantity > item.quantity) {
+    if (!Number.isInteger(quantitySet) || quantitySet < 1 || quantitySet > item.quantity) {
       console.error("Invalid quantity. Please enter a valid positive number.");
       return;
     }
@@ -61,16 +63,21 @@ function ItemInfo() {
     if(shippingAvalivable){
       setShippingAvalivable(shipping1);
     }
-
-    const tempItem = cart.find((cartItem) => cartItem.itemId === _id);
-    if (tempItem) {
-      const updatedCart = cart.map((cartItem) =>
-        cartItem.itemId === _id ? { ...cartItem, quantity: cartItem.quantity + quantity } : cartItem
-      );
-      setCart(updatedCart);
-    } else {
-      setCart((prevCart) => [...prevCart, { itemId: _id, name, price, quantity: quantity, shipping1: shipping1 }]);
+    if(quantity>0){
+      const tempItem = cart.find((cartItem) => cartItem.itemId === _id);
+      if (tempItem) {
+        if(tempItem.quantity + quantitySet<quantity){
+          const updatedCart = cart.map((cartItem) =>
+            cartItem.itemId === _id ? { ...cartItem, quantity: cartItem.quantity + quantity } : cartItem
+          );
+          setCart(updatedCart);
+        }
+      } else {
+        setCart((prevCart) => [...prevCart, { itemId: _id, name, price, quantity: quantitySet, maxQuantity: quantity, shipping1: shipping1 }]);
+      }
     }
+
+    dispatch({ type: 'ADD_TO_CART' });
   };
 
   return (
@@ -85,13 +92,13 @@ function ItemInfo() {
                 className="w-2/3 h-auto max-w-full max-h-full"
               />
             </div>
-            <label htmlFor="quantity" className="text-lg mt-4">Ilość:</label>
+            <label htmlFor="quantitySet" className="text-lg mt-4">Ilość:</label>
             <div className="flex items-center">
               <input
                 type="number"
-                id="quantity"
-                name="quantity"
-                value={quantity}
+                id="quantitySet"
+                name="quantitySet"
+                value={quantitySet}
                 min={1}
                 max={item.quantity}
                 onChange={(e) => dispatch({ type: 'SET_QUANTITY', payload: parseInt(e.target.value, 10) })}
@@ -110,25 +117,17 @@ function ItemInfo() {
             <div className="mt-4">
               <h5 className="text-lg font-bold mb-2">Opcje dostawy:</h5>
               <div className="mx-auto p-4 flex">
-                <div className="w-1/2 relative text-lg text-gray-70">
-                  Paczkomat
-                </div>
-                <div className="w-1/2 relative text-lg text-gray-70">
-                  {item.shipping1 ? <FaCheck /> : 'Niedostępny'}
+                <div className="w-auto text-lg text-gray-70">
+                  Paczkomat {item.shipping1 ? <FaCheck color='green' /> : 'Niedostępny'}
                 </div>
               </div>
               <div className="mx-auto p-4 flex">
-                <div className="w-1/2 text-lg text-gray-70">
-                  Kurier
-                </div>
-                <div className="w-1/2 relative text-lg text-gray-70">
-                  {item.shipping2 ? <FaCheck /> : 'Niedostępny'}
+                <div className="w-auto text-lg text-gray-70">
+                  Kurier {item.shipping2 ? <FaCheck color='green' /> : 'Niedostępny'}
                 </div>
               </div>
             </div>
           </div>
-
-
 
           <div className="md:col-span-1 lg:col-span-2">
             <div className="mt-4">

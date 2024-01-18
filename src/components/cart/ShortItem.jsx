@@ -6,7 +6,7 @@ const ShortItem = ({ item }) => {
 
   const handleAdd = () => {
     const updatedCart = cart.map(cartItem =>
-      cartItem.itemId === item.itemId
+      cartItem.itemId === item.itemId && cartItem.quantity < cartItem.maxQuantity
         ? { ...cartItem, quantity: cartItem.quantity + 1 }
         : cartItem
     );

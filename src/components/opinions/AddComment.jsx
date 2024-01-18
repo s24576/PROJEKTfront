@@ -24,10 +24,12 @@ function AddComment({ id }) {
         comment: comment,
       };
 
-      const response = await axios.post(
-        "http://localhost:3001/api/opinion/addComment",
-        values
-      );
+      if(values.comment){
+        const response = await axios.post(
+          "http://localhost:3001/api/opinion/addComment",
+          values
+        );
+      }
       setComment("");
       fetchAllComments(id);
     } catch (error) {

@@ -9,9 +9,6 @@ function Forms({type}){
     else if(type==="formS2"){
         return (<div><FormS2 /></div>);
     }
-    else{
-        return (<div>siema</div>);
-    }
 }
 
 export default Forms;

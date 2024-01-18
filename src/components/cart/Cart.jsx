@@ -32,7 +32,7 @@ function Cart() {
       ))}
       <div className="mt-4">
         <p className="price text-xl font-semibold">Suma: {subtotal.toFixed(2)}</p>
-        <p className="price text-xl font-semibold">+ dostawa: {shippingAvalivable ? 10 : 20}</p>
+        <p className="price text-xl font-semibold">+ dostawa od {shippingAvalivable ? 10 : 20}</p>
       </div>
       <Link to="/shipping">
         <button className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-blue-700">

@@ -12,7 +12,7 @@ const validateNumber = (input) => {
 
 function Main() {
   const { items, setItems, fetchData, loading, error } = useContext(ItemsContext);
-  const [sortedItems, setSortedItems] = useState([]);
+  const { sortedItems, setSortedItems } = useContext(SortContext);
   const { minPrice, setMinPrice } = useContext(SortContext);
   const { maxPrice, setMaxPrice } = useContext(SortContext);
   const { category, setCategory } = useContext(SortContext);

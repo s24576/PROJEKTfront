@@ -10,6 +10,7 @@ export const SortProvider = ({children}) => {
     const [allCategories, setAllCategories] = useState([]);
     const [orderBy, setOrderBy] = useState("date");
     const [sortOrder, setSortOrder] = useState("desc");
+    const [sortedItems, setSortedItems] = useState([]);
 
     useEffect(()=>{
         const fetchCategories = async () => {
@@ -35,6 +36,7 @@ export const SortProvider = ({children}) => {
             allCategories, setAllCategories,
             orderBy, setOrderBy,
             sortOrder, setSortOrder,
+            sortedItems, setSortedItems,
         }}>
             {children}
         </SortContext.Provider>

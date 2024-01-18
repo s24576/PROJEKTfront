@@ -9,16 +9,16 @@ import * as Yup from "yup";
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Pole jest wymagane"),
   surname: Yup.string().required("Pole jest wymagane"),
-  email: Yup.string().required("Pole jest wymagane"),
-  number: Yup.string().required("Pole jest wymagane"),
+  email: Yup.string().email("Nieprawidłowy format adresu email").required("Pole jest wymagane"),
+  number: Yup.string().matches(/^[0-9]{9}$/, "Nieprawidłowy format numeru telefonu").required("Pole jest wymagane"),
   address: Yup.string().required("Pole jest wymagane"),
-  postalcode: Yup.string().required("Pole jest wymagane"),
+  postalcode: Yup.string().matches(/^[0-9]{2}-[0-9]{3}$/, "Nieprawidłowy format kodu pocztowego").required("Pole jest wymagane"),
   city: Yup.string().required("Pole jest wymagane"),
 });
 
 function FormS2() {
   const navigate = useNavigate();
-  const { cart, setCart } = useContext(ItemsContext);
+  const { cart, setCart, setShippingAvalivable } = useContext(ItemsContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState(null);
 
@@ -47,9 +47,11 @@ function FormS2() {
         },
       });
 
+      setShippingAvalivable(true);
+      setCart(null);
+
       const address = "/order/" + response.data.id;
       navigate(address);
-      setCart(null);
     } catch (error) {
       console.error("Error:", error);
     } finally {

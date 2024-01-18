@@ -14,7 +14,7 @@ function SortForm({ handleSort }) {
     sortOrder,
     setSortOrder,
   } = useContext(SortContext);
-  const { allCategories } = useContext(SortContext);
+  const { allCategories, } = useContext(SortContext);
   const minPriceInputRef = useRef(null);
 
   useEffect(() => {
@@ -114,12 +114,12 @@ function SortForm({ handleSort }) {
           </label>
         </div>
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          Sortuj
-        </button>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Sortuj
+          </button>
       </form>
     </div>
   );

@@ -23,14 +23,14 @@ function Shipping() {
           onClick={() => handleDeliveryOptionClick("formS2")}
           className={`py-2 px-4 rounded-md focus:outline-none ${selectedDelivery === "formS2" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
         >
-          Kurier
+          Kurier(20zł)
         </button>
         {shippingAvalivable && (
           <button
             onClick={() => handleDeliveryOptionClick("formS1")}
             className={`py-2 px-4 rounded-md focus:outline-none ${selectedDelivery === "formS1" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
           >
-            Paczkomat
+            Paczkomat(10zł)
           </button>
         )}
       </div>
