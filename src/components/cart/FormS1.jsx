@@ -133,25 +133,30 @@ function FormS1() {
         className="modal"
         overlayClassName="overlay"
       >
-        <p className="mb-4">Potwierdź dane do wysyłki</p>
-        {formData && (
-          <div className="mb-4">
-            <p>Imię i nazwisko: {formData.names}</p>
-            <p>Adres email: {formData.email}</p>
-            <p>Numer telefonu: {formData.number}</p>
-            <p>Numer paczkomatu: {formData.code}</p>
+        <div className="bg-white p-4 rounded-md">
+          <p className="mb-4 text-lg font-bold">Potwierdź dane do wysyłki</p>
+          {formData && (
+            <div className="mb-4">
+              <p className="mb-2"><span className="font-semibold">Imię i nazwisko:</span> {formData.names}</p>
+              <p className="mb-2"><span className="font-semibold">Adres email:</span> {formData.email}</p>
+              <p className="mb-2"><span className="font-semibold">Numer telefonu:</span> {formData.number}</p>
+              <p className="mb-2"><span className="font-semibold">Numer paczkomatu:</span> {formData.code}</p>
+            </div>
+          )}
+          <div className="flex justify-end">
+            <button
+              onClick={handleConfirm}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            >
+              Potwierdź
+            </button>
+            <button 
+              onClick={handleReject} 
+              className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+            >
+              Odrzuć
+            </button>
           </div>
-        )}
-        <div>
-          <button
-            onClick={handleConfirm}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
-          >
-            Potwierdź
-          </button>
-          <button onClick={handleReject} className="bg-gray-500 text-white px-4 py-2 rounded-md">
-            Odrzuć
-          </button>
         </div>
       </Modal>
     </div>

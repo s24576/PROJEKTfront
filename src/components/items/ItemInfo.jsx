@@ -23,6 +23,8 @@ function ItemInfo() {
   const { error, setError } = useContext(ItemsContext);
   const { cart, setCart, shippingAvalivable, setShippingAvalivable, } = useContext(ItemsContext);
   const [quantitySet, dispatch] = useReducer(quantityReducer, 1);
+  const [addToCartError, setAddToCartError] = useState('');
+  const [addToCartSuccess, setAddToCartSuccess] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,22 +43,22 @@ function ItemInfo() {
     fetchData();
   }, [itemId]);
 
-  if (loading) {
-    return <div className="text-center">Loading...</div>;
-  }
-  if (error) {
-    return (
-      <div className="text-center">
-        <p>{error}</p>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (addToCartSuccess || addToCartError) {
+      const timeout = setTimeout(() => {
+        setAddToCartSuccess(false);
+        setAddToCartError(false);
+      }, 2000);
+  
+      return () => clearTimeout(timeout);
+    }
+  }, [addToCartSuccess, addToCartError]);  
 
   const handleAdd = () => {
     const { _id, name, price, quantity, shipping1 } = item;
 
     if (!Number.isInteger(quantitySet) || quantitySet < 1 || quantitySet > item.quantity) {
-      console.error("Invalid quantity. Please enter a valid positive number.");
+      setAddToCartError("Niepoprawna ilość.");
       return;
     }
 
@@ -78,21 +80,44 @@ function ItemInfo() {
     }
 
     dispatch({ type: 'ADD_TO_CART' });
+    setAddToCartError('');
+    setAddToCartSuccess(true);
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto flex-grow p-4 flex flex-col justify-center items-center">
+      {addToCartError && (
+        <div className="text-red-500 mt-2 px-4 py-4 bg-white">{addToCartError}</div>
+      )}
+      {addToCartSuccess && (
+        <div className="text-green-500 mt-2 px-4 py-4 bg-white">Przedmiot został dodany do koszyka.</div>
+      )}
+
       {item && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="md:col-span-2 lg:col-span-1">
-            <div className="image-container">
-              <img
-                src={item.photo}
-                alt={item.name}
-                className="w-2/3 h-auto max-w-full max-h-full"
-              />
+        <div className="w-auto bg-white p-4 rounded-md shadow-md text-center">
+          <h4 className="text-xl font-bold">{item.name}</h4>
+          <img
+            src={item.photo}
+            alt={item.name}
+            className="image-container w-auto h-1/2 mx-auto"
+          />
+          <p className="price text-lg">Cena: {item.price}</p>
+          <p className="text-lg">Opis: {item.description}</p>
+          <p className="quantity text-lg">Ilość dostępna: {item.quantity}</p>
+
+          <div className="mt-4">
+            <h5 className="text-lg font-bold mb-2">Opcje dostawy:</h5>
+            <div className="flex justify-center">
+              <div className="text-lg text-gray-700 flex items-center">
+                Paczkomat {item.shipping1 ? <FaCheck color='green' /> : 'Niedostępny'}
+              </div>
+              <div className="text-lg text-gray-700 flex items-center ml-4">
+                Kurier {item.shipping2 ? <FaCheck color='green' /> : 'Niedostępny'}
+              </div>
             </div>
-            <label htmlFor="quantitySet" className="text-lg mt-4">Ilość:</label>
+          </div>
+          <div className="flex flex-col items-center">
+            <label htmlFor="quantitySet" className="text-lg">Ilość:</label>
             <div className="flex items-center">
               <input
                 type="number"
@@ -102,40 +127,18 @@ function ItemInfo() {
                 min={1}
                 max={item.quantity}
                 onChange={(e) => dispatch({ type: 'SET_QUANTITY', payload: parseInt(e.target.value, 10) })}
-                className="w-16 border border-gray-400 p-2"
+                className="w-16 border border-gray-400 p-2 mr-2"
               />
-              <button onClick={handleAdd} className="bg-blue-500 text-white py-2 px-4 ml-2 rounded-md">Dodaj do koszyka</button>
-            </div>
-          </div>
-
-          <div className="md:col-span-1 lg:col-span-2 flex flex-col justify-center items-center bg-white p-4 rounded-md shadow-md">
-            <h4 className="text-xl font-bold">{item.name}</h4>
-            <p className="price text-lg">Cena: {item.price}</p>
-            <p className="text-lg">Opis: {item.description}</p>
-            <p className="quantity text-lg">Ilość dostępna: {item.quantity}</p>
-
-            <div className="mt-4">
-              <h5 className="text-lg font-bold mb-2">Opcje dostawy:</h5>
-              <div className="mx-auto p-4 flex">
-                <div className="w-auto text-lg text-gray-70">
-                  Paczkomat {item.shipping1 ? <FaCheck color='green' /> : 'Niedostępny'}
-                </div>
-              </div>
-              <div className="mx-auto p-4 flex">
-                <div className="w-auto text-lg text-gray-70">
-                  Kurier {item.shipping2 ? <FaCheck color='green' /> : 'Niedostępny'}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="md:col-span-1 lg:col-span-2">
-            <div className="mt-4">
-              <Opinions id={item._id} />
+              <button onClick={handleAdd} className="bg-blue-500 text-white py-2 px-4 rounded-md">Dodaj do koszyka</button>
             </div>
           </div>
         </div>
       )}
+      <div className="mt-4 w-full md:w-2/3 lg:w-1/2">
+        {item && (
+          <Opinions id={item._id} />
+        )}
+      </div>
     </div>
   );
 }

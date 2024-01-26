@@ -184,7 +184,7 @@ function Order() {
 
         <div className="mt-6">
           <h3 className="text-xl font-semibold mb-2">Suma zamówienia:</h3>
-          <p className="font-semibold text-lg price">{state.totalCost} PLN</p>
+          <p className="font-semibold text-lg price">{state.totalCost}</p>
         </div>
       </div>
     </div>
